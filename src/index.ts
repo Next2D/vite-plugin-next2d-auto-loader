@@ -5,7 +5,6 @@ import { EOL } from "os";
 import type { ObjectImpl } from "./interface/ObjectImpl";
 import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
 
-
 /**
  * @type {string}
  * @private
