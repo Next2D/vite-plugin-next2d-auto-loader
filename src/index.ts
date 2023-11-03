@@ -1,7 +1,7 @@
+const fs = require("fs");
+const os = require("os");
 import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
 import type { ObjectImpl } from "./interface/ObjectImpl";
-import fs from "fs";
-import os from "os";
 
 /**
  * @type {string}
@@ -230,7 +230,7 @@ export { packages };`;
  * @method
  * @public
  */
-export default function autoLoader (object: ObjectImpl): any
+module.exports = (object: ObjectImpl): any =>
 {
     return {
         "name": "vite-typescript-auto-loader-plugin",
