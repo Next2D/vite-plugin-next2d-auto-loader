@@ -49,9 +49,7 @@ const buildConfig = (object: ObjectImpl): void =>
     if (existsSync(stagePath)) {
         Object.assign(
             config.stage, 
-            JSON.parse(
-                readFileSync(stagePath, { "encoding": "utf8" })
-            )
+            JSON.parse(readFileSync(stagePath, { "encoding": "utf8" }))
         );
     }
 
@@ -60,9 +58,7 @@ const buildConfig = (object: ObjectImpl): void =>
     if (existsSync(routingPath)) {
         Object.assign(
             config.routing, 
-            JSON.parse(
-                readFileSync(routingPath, { "encoding": "utf8" })
-            )
+            JSON.parse(readFileSync(routingPath, { "encoding": "utf8" }))
         );
     }
 
@@ -262,4 +258,4 @@ export default function autoLoader (object: ObjectImpl): any
             });
         }
     };
-};
+}
