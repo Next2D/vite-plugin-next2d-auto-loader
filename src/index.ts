@@ -46,7 +46,7 @@ const buildConfig = (object: ObjectImpl): void =>
     const stagePath: string = `${configDir}/stage.json`;
     if (existsSync(stagePath)) {
         Object.assign(
-            config.stage, 
+            config.stage,
             JSON.parse(readFileSync(stagePath, { "encoding": "utf8" }))
         );
     }
@@ -55,7 +55,7 @@ const buildConfig = (object: ObjectImpl): void =>
     const routingPath: string = `${configDir}/routing.json`;
     if (existsSync(routingPath)) {
         Object.assign(
-            config.routing, 
+            config.routing,
             JSON.parse(readFileSync(routingPath, { "encoding": "utf8" }))
         );
     }
