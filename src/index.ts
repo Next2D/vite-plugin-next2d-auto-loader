@@ -1,5 +1,3 @@
-"use strict";
-
 import { Stats, existsSync, readFileSync, writeFileSync, statSync, readdirSync } from "fs";
 import { EOL } from "os";
 import type { ObjectImpl } from "./interface/ObjectImpl";
