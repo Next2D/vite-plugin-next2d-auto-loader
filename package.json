@@ -1,6 +1,6 @@
 {
   "name": "@next2d/vite-typescript-auto-loader-plugin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Next2D Framework vite TypeScript Auto Loader plugin.",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app>",
   "license": "MIT",
