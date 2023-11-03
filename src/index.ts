@@ -1,7 +1,7 @@
-import { Stats, existsSync, readFileSync, writeFileSync, statSync, readdirSync } from "fs";
-import { EOL } from "os";
-import type { ObjectImpl } from "./interface/ObjectImpl";
 import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
+import type { ObjectImpl } from "./interface/ObjectImpl";
+import fs from "fs";
+import os from "os";
 
 /**
  * @type {string}
@@ -27,10 +27,10 @@ const buildConfig = (object: ObjectImpl): void =>
 
     // load config.json
     const configPath: string = `${configDir}/config.json`;
-    if (existsSync(configPath)) {
+    if (fs.existsSync(configPath)) {
 
         const configObject: any = JSON.parse(
-            readFileSync(configPath, { "encoding": "utf8" })
+            fs.readFileSync(configPath, { "encoding": "utf8" })
         );
 
         if (object.environment in configObject) {
@@ -44,19 +44,19 @@ const buildConfig = (object: ObjectImpl): void =>
 
     // load stage.json
     const stagePath: string = `${configDir}/stage.json`;
-    if (existsSync(stagePath)) {
+    if (fs.existsSync(stagePath)) {
         Object.assign(
             config.stage,
-            JSON.parse(readFileSync(stagePath, { "encoding": "utf8" }))
+            JSON.parse(fs.readFileSync(stagePath, { "encoding": "utf8" }))
         );
     }
 
     // load routing.json
     const routingPath: string = `${configDir}/routing.json`;
-    if (existsSync(routingPath)) {
+    if (fs.existsSync(routingPath)) {
         Object.assign(
             config.routing,
-            JSON.parse(readFileSync(routingPath, { "encoding": "utf8" }))
+            JSON.parse(fs.readFileSync(routingPath, { "encoding": "utf8" }))
         );
     }
 
@@ -66,7 +66,7 @@ const buildConfig = (object: ObjectImpl): void =>
         // cache update
         cacheConfig = configString;
 
-        writeFileSync(
+        fs.writeFileSync(
             `${configDir}/Config.ts`,
             `import type { ConfigImpl } from "@next2d/framework";
 const config: ConfigImpl = ${configString};
@@ -85,7 +85,7 @@ const getFileType = (path: string): string =>
 {
     try {
 
-        const stat: Stats = statSync(path);
+        const stat = fs.statSync(path);
 
         switch (true) {
             case stat.isFile():
@@ -114,7 +114,7 @@ const getFileType = (path: string): string =>
 const getListFiles = (dir_path: string): string[] =>
 {
     const files: string[] = [];
-    const paths: string[] = readdirSync(dir_path);
+    const paths: string[] = fs.readdirSync(dir_path);
 
     for (let idx: number = 0; idx < paths.length; ++idx) {
 
@@ -155,7 +155,7 @@ const buildPackage = (): void =>
     const files: string[] = getListFiles(`${dir}/src`);
 
     let imports: string  = "";
-    let packages: string = `[${EOL}`;
+    let packages: string = `[${os.EOL}`;
     for (let idx: number = 0; idx < files.length; ++idx) {
 
         const file: string = files[idx];
@@ -163,7 +163,7 @@ const buildPackage = (): void =>
             continue;
         }
 
-        const js: string = readFileSync(file, { "encoding": "utf-8" });
+        const js: string = fs.readFileSync(file, { "encoding": "utf-8" });
         const lines: string[] = js.split("\n");
 
         const path: string = file.replace(`${dir}/`, "");
@@ -178,8 +178,8 @@ const buildPackage = (): void =>
             switch (true) {
 
                 case path.indexOf("src/view/") > -1:
-                    imports  += `import { ${name} } from "@/${path.split("src/")[1].split(".ts")[0]}";${EOL}`;
-                    packages += `    ["${name}", ${name}],${EOL}`;
+                    imports  += `import { ${name} } from "@/${path.split("src/")[1].split(".ts")[0]}";${os.EOL}`;
+                    packages += `    ["${name}", ${name}],${os.EOL}`;
                     break;
 
                 case path.indexOf("src/model/") > -1:
@@ -196,8 +196,8 @@ const buildPackage = (): void =>
                             .join("_")
                             .slice(0, -3);
 
-                        imports  += `import { ${name} as ${asName} } from "@/${path.split("src/")[1].split(".ts")[0]}";${EOL}`;
-                        packages += `    ["${key}", ${asName}],${EOL}`;
+                        imports  += `import { ${name} as ${asName} } from "@/${path.split("src/")[1].split(".ts")[0]}";${os.EOL}`;
+                        packages += `    ["${key}", ${asName}],${os.EOL}`;
                     }
                     break;
 
@@ -212,7 +212,7 @@ const buildPackage = (): void =>
     }
 
     packages  = packages.slice(0, -2);
-    packages += `${EOL}]`;
+    packages += `${os.EOL}]`;
 
     const packageString: string = `${imports}
 const packages: any[] = ${packages};
@@ -220,7 +220,7 @@ export { packages };`;
 
     if (cachePackages !== packageString) {
         cachePackages = packageString;
-        writeFileSync(`${dir}/src/Packages.ts`, packageString);
+        fs.writeFileSync(`${dir}/src/Packages.ts`, packageString);
     }
 };
 
