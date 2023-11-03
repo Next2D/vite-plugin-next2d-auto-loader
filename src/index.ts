@@ -1,5 +1,4 @@
-const fs = require("fs");
-const os = require("os");
+import * as fs from "fs";
 import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
 import type { ObjectImpl } from "./interface/ObjectImpl";
 
@@ -145,6 +144,12 @@ const getListFiles = (dir_path: string): string[] =>
 let cachePackages: string = "";
 
 /**
+ * @type {string}
+ * @private
+ */
+const EOL: string = "\n";
+
+/**
  * @return {void}
  * @method
  * @private
@@ -155,7 +160,7 @@ const buildPackage = (): void =>
     const files: string[] = getListFiles(`${dir}/src`);
 
     let imports: string  = "";
-    let packages: string = `[${os.EOL}`;
+    let packages: string = `[${EOL}`;
     for (let idx: number = 0; idx < files.length; ++idx) {
 
         const file: string = files[idx];
@@ -178,8 +183,8 @@ const buildPackage = (): void =>
             switch (true) {
 
                 case path.indexOf("src/view/") > -1:
-                    imports  += `import { ${name} } from "@/${path.split("src/")[1].split(".ts")[0]}";${os.EOL}`;
-                    packages += `    ["${name}", ${name}],${os.EOL}`;
+                    imports  += `import { ${name} } from "@/${path.split("src/")[1].split(".ts")[0]}";${EOL}`;
+                    packages += `    ["${name}", ${name}],${EOL}`;
                     break;
 
                 case path.indexOf("src/model/") > -1:
@@ -196,8 +201,8 @@ const buildPackage = (): void =>
                             .join("_")
                             .slice(0, -3);
 
-                        imports  += `import { ${name} as ${asName} } from "@/${path.split("src/")[1].split(".ts")[0]}";${os.EOL}`;
-                        packages += `    ["${key}", ${asName}],${os.EOL}`;
+                        imports  += `import { ${name} as ${asName} } from "@/${path.split("src/")[1].split(".ts")[0]}";${EOL}`;
+                        packages += `    ["${key}", ${asName}],${EOL}`;
                     }
                     break;
 
@@ -212,7 +217,7 @@ const buildPackage = (): void =>
     }
 
     packages  = packages.slice(0, -2);
-    packages += `${os.EOL}]`;
+    packages += `${EOL}]`;
 
     const packageString: string = `${imports}
 const packages: any[] = ${packages};
@@ -230,7 +235,7 @@ export { packages };`;
  * @method
  * @public
  */
-module.exports = (object: ObjectImpl): any =>
+export default function autoLoader (object: ObjectImpl): any
 {
     return {
         "name": "vite-typescript-auto-loader-plugin",
@@ -256,4 +261,4 @@ module.exports = (object: ObjectImpl): any =>
             });
         }
     };
-};
+}
