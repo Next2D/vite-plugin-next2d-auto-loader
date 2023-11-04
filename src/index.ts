@@ -62,7 +62,40 @@ const buildConfig = (object: ObjectImpl): void =>
         );
     }
 
-    const configString: string = JSON.stringify(config, null, 4);
+    const regexp: RegExp = new RegExp(/{{(.*?)}}/, "g");
+
+    let configString: string = JSON.stringify(config, null, 4);
+    const values: RegExpMatchArray | null = configString.match(regexp);
+    if (values) {
+        for (let idx: number = 0; idx < values.length; ++idx) {
+
+            const value: string = values[idx];
+
+            const names: string[] = value
+                .replace(/\{|\{|\}|\}/g, "")
+                .replace(/\s+/g, "")
+                .split(".");
+
+            if (!names.length) {
+                continue;
+            }
+
+            let configValue: any = config;
+            for (let idx: number = 0; idx < names.length; ++idx) {
+                const name: string = names[idx];
+                if (name in configValue) {
+                    configValue = configValue[name];
+                }
+            }
+
+            if (config === configValue) {
+                continue;
+            }
+
+            configString = configString.replace(value, configValue);
+        }
+    }
+
     if (cacheConfig !== configString) {
 
         // cache update
