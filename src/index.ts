@@ -2,6 +2,9 @@ import * as fs from "fs";
 import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
 import type { ObjectImpl } from "./interface/ObjectImpl";
 
+const useTypeScript: boolean = fs.existsSync(`${process.cwd()}/src/index.ts`);
+const ext: string = useTypeScript ? "ts" : "js";
+
 /**
  * @type {string}
  * @private
@@ -65,12 +68,17 @@ const buildConfig = (object: ObjectImpl): void =>
         // cache update
         cacheConfig = configString;
 
-        fs.writeFileSync(
-            `${configDir}/Config.ts`,
-            `import type { ConfigImpl } from "@next2d/framework";
+        let source: string = "";
+        if (useTypeScript) {
+            source += `import type { ConfigImpl } from "@next2d/framework";
 const config: ConfigImpl = ${configString};
-export { config };`
-        );
+export { config };`;
+        } else {
+            source += `const config = ${configString};
+export { config };`;
+        }
+
+        fs.writeFileSync(`${configDir}/Config.${ext}`, source);
     }
 };
 
@@ -164,7 +172,7 @@ const buildPackage = (): void =>
     for (let idx: number = 0; idx < files.length; ++idx) {
 
         const file: string = files[idx];
-        if (file.indexOf(".ts") === -1) {
+        if (file.indexOf(`.${ext}`) === -1) {
             continue;
         }
 
@@ -183,7 +191,7 @@ const buildPackage = (): void =>
             switch (true) {
 
                 case path.indexOf("src/view/") > -1:
-                    imports  += `import { ${name} } from "@/${path.split("src/")[1].split(".ts")[0]}";${EOL}`;
+                    imports  += `import { ${name} } from "@/${path.split("src/")[1].split(`.${ext}`)[0]}";${EOL}`;
                     packages += `    ["${name}", ${name}],${EOL}`;
                     break;
 
@@ -201,7 +209,7 @@ const buildPackage = (): void =>
                             .join("_")
                             .slice(0, -3);
 
-                        imports  += `import { ${name} as ${asName} } from "@/${path.split("src/")[1].split(".ts")[0]}";${EOL}`;
+                        imports  += `import { ${name} as ${asName} } from "@/${path.split("src/")[1].split(`.${ext}`)[0]}";${EOL}`;
                         packages += `    ["${key}", ${asName}],${EOL}`;
                     }
                     break;
@@ -219,13 +227,20 @@ const buildPackage = (): void =>
     packages  = packages.slice(0, -2);
     packages += `${EOL}]`;
 
-    const packageString: string = `${imports}
+    let source: string = "";
+    if (useTypeScript) {
+        source = `${imports}
 const packages: any[] = ${packages};
 export { packages };`;
+    } else {
+        source = `${imports}
+const packages = ${packages};
+export { packages };`;
+    }
 
-    if (cachePackages !== packageString) {
-        cachePackages = packageString;
-        fs.writeFileSync(`${dir}/src/Packages.ts`, packageString);
+    if (cachePackages !== source) {
+        cachePackages = source;
+        fs.writeFileSync(`${dir}/src/Packages.${ext}`, source);
     }
 };
 
