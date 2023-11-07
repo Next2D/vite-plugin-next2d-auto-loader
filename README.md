@@ -5,7 +5,7 @@
 [![release](https://img.shields.io/github/v/release/Next2D/vite-auto-loader-plugin)](https://github.com/Next2D/vite-auto-loader-plugin/releases)
 [![license](https://img.shields.io/github/license/Next2D/vite-auto-loader-plugin)](https://github.com/Next2D/vite-auto-loader-plugin/blob/main/LICENSE)
 
-Next2D Framework vite TypeScript Auto Loader plugin.
+Next2D Framework Auto Loader plugin for `vite`.
 
 ```sh
 npm i -D @next2d/vite-auto-loader-plugin

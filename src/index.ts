@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
-import type { ObjectImpl } from "./interface/ObjectImpl";
 
 const useTypeScript: boolean = fs.existsSync(`${process.cwd()}/src/index.ts`);
 const ext: string = useTypeScript ? "ts" : "js";
@@ -12,17 +11,18 @@ const ext: string = useTypeScript ? "ts" : "js";
 let cacheConfig: string = "";
 
 /**
- * @param  {object} object
  * @return {void}
  * @method
  * @private
  */
-const buildConfig = (object: ObjectImpl): void =>
+const buildConfig = (): void =>
 {
-    const configDir: string = `${process.cwd()}/src/config`;
+    const configDir: string   = `${process.cwd()}/src/config`;
+    const environment: string = process.env.NEXT2D_EBUILD_ENVIRONMENT || "local";
+    const platform: string    = process.env.NEXT2D_TARGET_PLATFORM || "web";
 
     const config: ConfigObjectImpl = {
-        "platform": object.platform,
+        "platform": platform,
         "stage"  : {},
         "routing": {}
     };
@@ -35,8 +35,8 @@ const buildConfig = (object: ObjectImpl): void =>
             fs.readFileSync(configPath, { "encoding": "utf8" })
         );
 
-        if (object.environment in configObject) {
-            Object.assign(config, configObject[object.environment]);
+        if (environment in configObject) {
+            Object.assign(config, configObject[environment]);
         }
 
         if (configObject.all) {
@@ -278,19 +278,18 @@ export { packages };`;
 };
 
 /**
- * @param  {object} object
  * @return {object}
  * @method
  * @public
  */
-export default function autoLoader (object: ObjectImpl): any
+export default function autoLoader (): any
 {
     return {
         "name": "vite-typescript-auto-loader-plugin",
         "buildStart": {
             "order": "pre",
             handler() {
-                buildConfig(object);
+                buildConfig();
                 buildPackage();
             }
         },
@@ -305,7 +304,7 @@ export default function autoLoader (object: ObjectImpl): any
 
             server.watcher.on("change", () =>
             {
-                buildConfig(object);
+                buildConfig();
             });
         }
     };
