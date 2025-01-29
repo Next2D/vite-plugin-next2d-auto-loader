@@ -1,5 +1,5 @@
+import type { IConfigObject } from "./interface/IConfigObject";
 import * as fs from "fs";
-import type { ConfigObjectImpl } from "./interface/ConfigObjectImpl";
 
 const useTypeScript: boolean = fs.existsSync(`${process.cwd()}/src/index.ts`);
 const ext: string = useTypeScript ? "ts" : "js";
@@ -21,7 +21,7 @@ const buildConfig = (): void =>
     const environment: string = process.env.NEXT2D_EBUILD_ENVIRONMENT || "local";
     const platform: string    = process.env.NEXT2D_TARGET_PLATFORM || "web";
 
-    const config: ConfigObjectImpl = {
+    const config: IConfigObject = {
         "platform": platform,
         "stage"  : {},
         "routing": {}
@@ -103,8 +103,8 @@ const buildConfig = (): void =>
 
         let source: string = "";
         if (useTypeScript) {
-            source += `import type { ConfigImpl } from "@next2d/framework";
-const config: ConfigImpl = ${configString};
+            source += `import type { IConfig } from "@next2d/framework";
+const config: IConfig = ${configString};
 export { config };`;
         } else {
             source += `const config = ${configString};
@@ -263,7 +263,7 @@ const buildPackage = (): void =>
     let source: string = "";
     if (useTypeScript) {
         source = `${imports}
-const packages: any[] = ${packages};
+const packages: Array<Array<string | Function>> = ${packages};
 export { packages };`;
     } else {
         source = `${imports}
