@@ -25,9 +25,5 @@ export default defineConfig({
             },
             "plugins": [polyfillNode()]
         }
-    },
-    "test": {
-        "globals": true,
-        "include": ["src/**/*.test.ts"]
     }
 });
