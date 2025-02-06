@@ -19,7 +19,11 @@
 
     "declaration": true,
     "baseUrl": ".",
-    "outDir": "./dist"
+    "outDir": "./dist",
+
+    "types": [
+      "vitest/globals"
+    ]
   },
   "include": [
     "src/**/*.ts"
