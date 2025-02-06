@@ -19,6 +19,7 @@
 
     "declaration": true,
     "declarationDir": "./dist",
+    "emitDeclarationOnly": true,
     "baseUrl": ".",
     "outDir": "./dist"
   },

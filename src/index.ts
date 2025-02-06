@@ -23,7 +23,7 @@ const ext: "ts" | "js" = useTypeScript ? "ts" : "js";
 export default function autoLoader (): any
 {
     return {
-        "name": "vite-auto-loader-plugin",
+        "name": "vite-plugin-next2d-auto-loader",
         "buildStart": {
             "order": "pre",
             handler() {
@@ -31,7 +31,7 @@ export default function autoLoader (): any
                 buildPackageUseCase(ext);
             }
         },
-        configureServer (server: any)
+        configureServer (server: any): void
         {
             const dir: string = `${process.cwd()}/src/config`;
             server.watcher.add([
