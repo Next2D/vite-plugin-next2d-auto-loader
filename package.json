@@ -1,5 +1,5 @@
 {
-  "name": "vite-plugin-next2d-auto-loader",
+  "name": "@next2d/vite-plugin-next2d-auto-loader",
   "description": "Next2D Framework vite TypeScript Auto Loader plugin.",
   "version": "2.0.3",
   "homepage": "https://next2d.app",
