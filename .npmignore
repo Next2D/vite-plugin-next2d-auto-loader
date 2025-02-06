@@ -4,9 +4,6 @@ src
 .gitattributes
 .gitignore
 eslint.config.mjs
-dist/index.umd.cjs
-dist/build
 dist/interface
 SECURITY.md
 tsconfig.json
-vite.config.ts
