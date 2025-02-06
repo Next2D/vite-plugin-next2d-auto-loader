@@ -63,8 +63,9 @@ export default function autoLoader (): any
                     return "unknown";
             }
 
-        } catch (_) {
+        } catch (error) {
 
+            console.error(error);
             return "unknown";
 
         }
