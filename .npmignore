@@ -6,3 +6,6 @@ src
 eslint.config.mjs
 tsconfig.json
 dist/index.umd.cjs
+dist/build
+dist/interface
+vite.config.ts

@@ -1,12 +1,13 @@
 {
   "name": "@next2d/vite-auto-loader-plugin",
   "description": "Next2D Framework vite TypeScript Auto Loader plugin.",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://next2d.app",
   "bugs": "https://github.com/Next2D/vite-auto-loader-plugin/issues",
   "author": "Toshiyuki Ienaga<ienaga@next2d.app>",
   "license": "MIT",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
@@ -20,7 +21,7 @@
   ],
   "scripts": {
     "lint": "eslint src/**/*.ts",
-    "publish": "vite build"
+    "publish": "vite build && tsc"
   },
   "repository": {
     "type": "git",
