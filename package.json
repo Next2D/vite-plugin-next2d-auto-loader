@@ -1,35 +1,41 @@
 {
   "name": "@next2d/vite-auto-loader-plugin",
-  "version": "2.0.0",
   "description": "Next2D Framework vite TypeScript Auto Loader plugin.",
-  "author": "Toshiyuki Ienaga<ienaga@next2d.app>",
-  "license": "MIT",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "version": "2.0.1",
   "homepage": "https://next2d.app",
   "bugs": "https://github.com/Next2D/vite-auto-loader-plugin/issues",
+  "author": "Toshiyuki Ienaga<ienaga@next2d.app>",
+  "license": "MIT",
+  "main": "src/index.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "keywords": [
+    "Next2D",
+    "vite plugin"
+  ],
   "scripts": {
     "lint": "eslint src/**/*.ts",
-    "publish": "tsc"
+    "publish": "vite build"
   },
-  "files": [
-    "dist"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Next2D/vite-auto-loader-plugin.git"
   },
-  "dependencies": {
-    "@types/node": "^22.12.0"
-  },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.19.0",
-    "@typescript-eslint/eslint-plugin": "^8.22.0",
-    "@typescript-eslint/parser": "^8.22.0",
+    "@types/node": "^22.13.1",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
     "eslint": "^9.19.0",
     "eslint-plugin-unused-imports": "^4.1.4",
-    "typescript": "^5.7.3"
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
   }
 }
