@@ -7,6 +7,7 @@
   "author": "Toshiyuki Ienaga<ienaga@next2d.app>",
   "license": "MIT",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
@@ -16,7 +17,7 @@
   },
   "keywords": [
     "Next2D",
-    "vite-plugin"
+    "vite-plugin-next2d-auto-loader"
   ],
   "scripts": {
     "lint": "eslint src/**/*.ts",
@@ -25,6 +26,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Next2D/vite-plugin-next2d-auto-loader.git"
+  },
+  "bin": {
+    "@next2d/view-generator": "dist/index.js"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
