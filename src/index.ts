@@ -1,5 +1,5 @@
 import type { IConfigObject } from "./interface/IConfigObject";
-import * as fs from "fs";
+const fs = require("fs");
 
 /**
  * @type {boolean}
