@@ -1,5 +1,9 @@
+#!/usr/bin/env node
+
+"use strict";
+
 import type { IConfigObject } from "./interface/IConfigObject";
-const fs = require("fs");
+import fs from "fs";
 
 /**
  * @type {boolean}
