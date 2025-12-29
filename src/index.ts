@@ -281,7 +281,7 @@ const buildPackage = (): void =>
 
     let source = `${imports}${EOL}`;
     source += ext === "ts"
-        ? `const packages: [string, new (...args: any[]) => {}][] = ${packages};${EOL}`
+        ? `const packages: [string, new (...args: any[]) => any][] = ${packages};${EOL}`
         : `const packages = ${packages};${EOL}`;
     source += "export { packages };";
 
